@@ -1,0 +1,387 @@
+.dashboard-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  width: 100%;
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-card {
+  padding: 0; /* Removing generic padding to control header/body borders */
+}
+
+.settings-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-header.border-bottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-body {
+  padding: 24px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 4px 0 0 0;
+}
+
+/* Hotel Details */
+.logo-upload-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.logo-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1f2f40 0%, #0f172a 100%);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.logo-preview .logo-icon {
+  font-size: 32px;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.change-logo {
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logo-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: var(--text-main);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none; /* for select */
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select {
+  background-color: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+}
+
+/* Branch Management */
+.add-branch-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.add-branch-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.branch-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.branch-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+}
+
+.branch-item.border-bottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.branch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.branch-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.branch-loc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.branch-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.icon-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Subscription */
+.subscription-top {
+  margin-bottom: 24px;
+}
+
+.plan-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plan-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plan-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.badge-active-trial {
+  background-color: rgba(20, 184, 166, 0.1);
+  color: var(--primary-color);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.plan-details {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.plan-dates {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
+.text-orange {
+  color: #f59e0b;
+}
+
+.text-white {
+  color: #fff;
+  font-weight: 500;
+}
+
+[data-theme="light"] .text-white {
+  color: #000;
+}
+
+.manage-plan-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.subscription-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sub-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] .sub-action-btn {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sub-action-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.upgrade-btn { color: #10b981; }
+.downgrade-btn { color: #8b5cf6; }
+.cancel-btn { color: #ef4444; }
+
+/* Drop Alert */
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.styled-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background-image: linear-gradient(var(--primary-color), var(--primary-color));
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  background-color: #fff; /* the track remainder */
+  outline: none;
+}
+
+[data-theme="light"] .styled-slider {
+  background-color: #e2e8f0;
+}
+
+.styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+.slider-value-display {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-color);
+  min-width: 32px;
+}
+
+.slider-hint {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Footer Button */
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.save-changes-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-changes-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.save-changes-btn .material-symbols-outlined {
+  font-size: 18px;
+}

@@ -1,0 +1,82 @@
+/* Core Styling Variables */
+:root {
+  /* Light Theme Variables */
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --primary-color: #14b8a6; /* Vibrant Teal */
+  --primary-hover: #0d9488;
+  --border-color: #e2e8f0;
+  --input-bg: #f1f5f9;
+  --input-border: #cbd5e1;
+  --focus-ring: rgba(20, 184, 166, 0.3);
+  --error-color: #ef4444;
+}
+
+[data-theme='dark'] {
+  /* Dark Theme Variables matching the image */
+  --bg-color: #0b1120; /* Very dark slate blue */
+  --card-bg: #1e293b; /* Slate-800 for card */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary-color: #14b8a6; 
+  --primary-hover: #0d9488;
+  --border-color: #334155;
+  --input-bg: #0f172a; /* Slate-900 for inputs (darker than card) */
+  --input-border: #334155;
+  --focus-ring: transparent; /* No soft glow */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+  vertical-align: middle;
+}
+
+/* Micro-interactions base classes */
+button, a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+.content-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(20, 184, 166, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}

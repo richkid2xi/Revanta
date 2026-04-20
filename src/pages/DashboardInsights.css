@@ -1,0 +1,363 @@
+.dashboard-insights {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Card Style */
+.content-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+/* Trends Section */
+.trends-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.legend-toggles {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.legend-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.legend-btn .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Colors for Legend */
+.legend-btn.overall.active { background-color: #14b8a6; color: #fff; border-color: #14b8a6; }
+.legend-btn.rooms.active { background-color: #8b5cf6; color: #fff; border-color: #8b5cf6; }
+.legend-btn.restaurant.active { background-color: #f59e0b; color: #fff; border-color: #f59e0b; }
+.legend-btn.spa.active { background-color: #10b981; color: #fff; border-color: #10b981; }
+.legend-btn.wifi.active { background-color: #ef4444; color: #fff; border-color: #ef4444; }
+
+.legend-btn.overall .dot { background-color: #14b8a6; }
+.legend-btn.rooms .dot { background-color: #8b5cf6; }
+.legend-btn.restaurant .dot { background-color: #f59e0b; }
+.legend-btn.spa .dot { background-color: #10b981; }
+.legend-btn.wifi .dot { background-color: #ef4444; }
+
+
+/* Middle Row */
+.insights-middle-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .insights-middle-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.export-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* Complaints */
+.complaints-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.complaint-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.complaint-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.complaint-name {
+  color: var(--text-main);
+}
+
+.complaint-stats {
+  color: var(--text-muted);
+}
+
+.complaint-stats .text-red {
+  color: #ef4444;
+}
+
+.progress-bg {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+[data-theme="light"] .progress-bg {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.red-fill {
+  background-color: #ef4444;
+}
+
+/* Staff Mentions */
+.mentions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.mention-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+[data-theme="light"] .mention-item {
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.mention-item:hover {
+  transform: translateX(4px);
+  border-color: var(--primary-color);
+}
+
+.mention-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.staff-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(20, 184, 166, 0.1);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.staff-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.staff-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.staff-dept {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mention-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mention-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.sentiment-badge {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.sentiment-badge.positive {
+  color: #10b981;
+}
+
+.sentiment-badge.neutral {
+  color: var(--text-muted);
+}
+
+.sentiment-badge.negative {
+  background-color: #ef4444;
+  color: #fff;
+  padding: 4px 12px;
+}
+
+/* Heatmap */
+.heatmap-card {
+  margin-top: 0;
+}
+
+.heatmap-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  gap: 8px;
+  overflow-x: auto; /* Allow scroll on very small screens */
+}
+
+/* Heatmap Variables (matching the image) */
+:root {
+  --heatmap-0: #1a2235; /* Dark background */
+  --heatmap-1: #1f2f40;
+  --heatmap-2: #164e63;
+  --heatmap-3: #0e7490;
+  --heatmap-4: #06b6d4; /* Bright teal */
+}
+
+[data-theme="light"] {
+  --heatmap-0: #f1f5f9;
+  --heatmap-1: #e2e8f0;
+  --heatmap-2: #cbd5e1;
+  --heatmap-3: #94a3b8;
+  --heatmap-4: #14b8a6;
+}
+
+.heatmap-header {
+  display: flex;
+  gap: 8px;
+}
+
+.empty-corner {
+  width: 50px;
+  flex-shrink: 0;
+}
+
+.heatmap-time {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 40px;
+}
+
+.heatmap-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.heatmap-day {
+  width: 50px;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.heatmap-cell {
+  flex: 1;
+  height: 40px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+  min-width: 40px;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-left: 58px; /* Align with cells */
+}
+
+.legend-boxes {
+  display: flex;
+  gap: 4px;
+}
+
+.l-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+}

@@ -361,3 +361,51 @@
   height: 16px;
   border-radius: 2px;
 }
+
+/* ============================== */
+/* Mobile Responsive — Insights   */
+/* ============================== */
+@media (max-width: 768px) {
+  .trends-header {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .legend-toggles {
+    gap: 8px;
+  }
+
+  .legend-btn {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  .heatmap-cell {
+    height: 32px;
+    font-size: 11px;
+    min-width: 32px;
+  }
+
+  .heatmap-time {
+    font-size: 10px;
+    min-width: 32px;
+  }
+
+  .heatmap-legend {
+    padding-left: 0;
+    flex-wrap: wrap;
+  }
+
+  .mention-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .mention-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+

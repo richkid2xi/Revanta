@@ -386,3 +386,36 @@
     gap: 32px;
   }
 }
+
+/* ================================= */
+/* Mobile Responsive — Departments   */
+/* ================================= */
+@media (max-width: 640px) {
+  .dept-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dept-card {
+    padding: 16px;
+  }
+
+  .dept-score-val {
+    font-size: 26px;
+  }
+
+  .dept-detail-view {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .detail-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .related-review-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+

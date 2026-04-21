@@ -119,11 +119,11 @@ export default function DashboardQRCodes() {
             <div className="qr-actions">
               <button className="btn-primary">
                 <span className="material-symbols-outlined">download</span>
-                Download PNG
+                Download
               </button>
               <button className="btn-secondary">
-                <span className="material-symbols-outlined">print</span>
-                Print A5
+                <span className="material-symbols-outlined">refresh</span>
+                Refresh
               </button>
             </div>
 

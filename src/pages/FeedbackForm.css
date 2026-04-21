@@ -194,7 +194,7 @@
 
 .rp-top-bar {
   position: relative;
-  padding: 24px 32px;
+  padding: 20px 32px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -914,10 +914,15 @@
 }
 
 .btn-primary {
-  flex: 2;
   background-color: #14b8a6;
   color: #fff;
 }
+
+/* Only stretch inside the feedback form footer */
+.sticky-footer-btn .btn-primary {
+  flex: 2;
+}
+
 
 .btn-primary:hover:not(:disabled) {
   background-color: #0d9488;
@@ -987,3 +992,758 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ======================================= */
+/* MOBILE RESPONSIVE — FeedbackForm        */
+/* ======================================= */
+
+/* Mobile header strip (shown only on mobile) */
+.mobile-form-header {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  /* Root wrapper: full screen, scrollable */
+  .feedback-wrapper {
+    height: 100dvh;
+    padding: 0;
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Kill the split layout — stack or simplify */
+  .split-layout {
+    flex-direction: column;
+    max-height: none;
+    height: auto;
+    width: 100%;
+    gap: 0;
+  }
+
+  /* Left panel always hidden on mobile */
+  .left-panel {
+    display: none;
+  }
+
+  /* Right panel: full width, full height */
+  .right-panel {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top progress bar */
+  .rp-top-bar {
+    padding: 16px 20px;
+  }
+
+  /* Mobile brand header strip */
+  .mobile-form-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px 0;
+  }
+
+  .mobile-form-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .mobile-form-hotel-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 0;
+  }
+
+  .mobile-form-branch {
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  /* Content area: scrollable, full height minus top bar */
+  .rp-content-area {
+    flex: 1;
+    padding: 0 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Welcome step adjustments */
+  .step-welcome {
+    max-width: 100%;
+    padding-top: 24px;
+    padding-bottom: 120px;
+  }
+
+  .rp-huge-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+  .rp-hotel-name {
+    font-size: 22px;
+  }
+
+  .rp-decorative-graphic {
+    margin: 32px 0;
+  }
+
+  .rp-dark-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .rp-smiley-star {
+    width: 48px;
+    height: 48px;
+  }
+
+  .rp-title {
+    font-size: 18px;
+  }
+
+  .rp-subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .rp-tags {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .tag-teal, .tag-orange {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  /* Form steps */
+  .step-form {
+    max-width: 100%;
+    padding-bottom: 110px;
+    padding-top: 24px;
+  }
+
+  .form-title {
+    font-size: 22px;
+  }
+
+  .form-subtitle {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  /* Services grid: 2 columns on mobile */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .service-card {
+    padding: 18px 12px;
+    gap: 10px;
+    border-radius: 14px;
+  }
+
+  .service-icon-box {
+    width: 40px;
+    height: 40px;
+  }
+
+  .service-label {
+    font-size: 13px;
+  }
+
+  /* Experience step */
+  .step-experience {
+    max-width: 100%;
+  }
+
+  /* General step */
+  .step-general {
+    max-width: 100%;
+  }
+
+  /* Overall score card: stack vertically */
+  .overall-score-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .overall-score-right {
+    gap: 12px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .score-number {
+    font-size: 20px;
+  }
+
+  /* Rating rows: compact */
+  .rating-areas-container {
+    padding: 0 16px;
+  }
+
+  .rating-area-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 0;
+  }
+
+  /* Star buttons: bigger touch targets */
+  .star-btn {
+    font-size: 36px;
+  }
+
+  .star-row {
+    gap: 6px;
+  }
+
+  /* Dept rating rows: stack */
+  .dept-rating-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .dept-rating-row .star-btn {
+    font-size: 32px;
+  }
+
+  /* Sticky footer */
+  .sticky-footer-btn {
+    padding: 16px 20px;
+  }
+
+  .sticky-footer-btn.split-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 14px 20px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  /* Form textarea */
+  .form-textarea {
+    font-size: 14px;
+    padding: 16px;
+    min-height: 120px;
+  }
+
+  /* Input fields */
+  .form-fields {
+    gap: 16px;
+  }
+
+  .input-group input {
+    padding: 13px 14px;
+    font-size: 14px;
+  }
+
+  /* Success screen */
+  .done-state {
+    padding-top: 40px;
+    padding-bottom: 120px;
+  }
+
+  .success-circle {
+    width: 72px;
+    height: 72px;
+  }
+
+  /* Progress dots */
+  .rp-progress-dots {
+    gap: 6px;
+  }
+
+  .progress-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .progress-dot.active {
+    width: 18px;
+  }
+
+  .rp-progress-text {
+    font-size: 13px;
+  }
+}
+
+/* Tablet: 641–992px — show side panel partially */
+@media (min-width: 641px) and (max-width: 992px) {
+  .feedback-wrapper {
+    padding: 16px;
+    overflow-y: auto;
+    align-items: flex-start;
+  }
+
+  .split-layout {
+    flex-direction: column;
+    max-height: none;
+    height: auto;
+  }
+
+  .left-panel {
+    display: none;
+  }
+
+  .right-panel {
+    border-radius: 20px;
+    min-height: calc(100dvh - 32px);
+  }
+
+  .step-form, .step-welcome {
+    max-width: 520px;
+  }
+}
+
+/* =========================================== */
+/* NEW COMPONENT STYLES                        */
+/* =========================================== */
+
+/* Color-coded star rating */
+.star-rating-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.sentiment-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+
+/* Score badge (amber circle with number) */
+.score-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+/* Overall sentiment label below score card */
+.overall-sentiment-label {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: -20px 0 20px;
+  transition: color 0.3s ease;
+}
+
+/* Service card remove button */
+.service-card {
+  position: relative;
+}
+
+.service-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+  transition: background 0.2s;
+}
+
+.service-remove-btn:hover {
+  background: rgba(239, 68, 68, 0.35);
+}
+
+.service-remove-btn .material-symbols-outlined {
+  font-size: 14px;
+  color: #ef4444;
+}
+
+/* Star row large variant */
+.star-row-large .star-btn {
+  font-size: 34px;
+}
+
+/* ---- CONTACT TOGGLE CARD ---- */
+.contact-toggle-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.contact-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-toggle-icon {
+  font-size: 24px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.contact-toggle-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.contact-toggle-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin: 2px 0 0;
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #334155;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: #14b8a6;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(22px);
+}
+
+/* Anonymous info box */
+.anonymous-info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(20, 184, 166, 0.06);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.anonymous-info-icon {
+  font-size: 20px;
+  color: #14b8a6;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Contact consent box */
+.contact-consent-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(20, 184, 166, 0.06);
+  border: 1px solid rgba(20, 184, 166, 0.15);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.consent-icon {
+  font-size: 18px;
+  color: #14b8a6;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Input with icon */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 18px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.input-with-icon input {
+  padding-left: 44px !important;
+  width: 100%;
+}
+
+/* Required/optional tag in labels */
+.required-tag {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+
+.optional-tag {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+
+/* ---- DONE STATE ---- */
+.done-state {
+  align-items: center;
+  text-align: center;
+  padding-top: 32px;
+  padding-bottom: 120px;
+}
+
+.success-circle {
+  width: 80px;
+  height: 80px;
+  background: rgba(20, 184, 166, 0.15);
+  border: 2px solid #14b8a6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: #14b8a6;
+}
+
+.success-circle .material-symbols-outlined {
+  font-size: 36px;
+  font-variation-settings: 'FILL' 1;
+}
+
+.done-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 8px;
+}
+
+.done-sub {
+  font-size: 15px;
+  color: #94a3b8;
+  margin: 0 0 8px;
+}
+
+.done-hotel-name {
+  color: #14b8a6;
+  font-weight: 600;
+}
+
+.done-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0 0 24px;
+  max-width: 340px;
+}
+
+.done-stars {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.done-hotel-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.done-hotel-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.done-hotel-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.done-hotel-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.done-hotel-card-branch {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.done-hotel-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+  font-family: monospace;
+  margin-top: 2px;
+}
+
+.done-hotel-rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.done-hotel-submitter {
+  color: #0f172a;
+  font-weight: 600;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
+
+.done-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 15px;
+  gap: 8px;
+}
+
+/* Mobile tweaks for new elements */
+@media (max-width: 640px) {
+  .mobile-form-header {
+    padding: 16px 20px 8px;
+    margin-bottom: 0;
+  }
+
+  .rp-top-bar {
+    padding: 16px 20px 12px;
+  }
+
+  .contact-toggle-card {
+    padding: 14px 16px;
+  }
+
+  .star-rating-group {
+    align-items: flex-start;
+  }
+
+  .dept-rating-row {
+    gap: 8px;
+  }
+
+  .done-hotel-card {
+    padding: 14px 16px;
+  }
+
+  .done-title {
+    font-size: 24px;
+  }
+
+  .score-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .overall-sentiment-label {
+    font-size: 13px;
+  }
+}
+

@@ -18,7 +18,6 @@ const servicesList = [
 ];
 
 const STEPS = ['welcome', 'experience', 'general', 'specific', 'info', 'done'];
-const ratingEmojis = ['', '😞', '😐', '🙂', '😊', '🤩'];
 
 const generalAreas = [
   { id: 'staff', label: 'Staff Friendliness' },
@@ -27,7 +26,27 @@ const generalAreas = [
   { id: 'value', label: 'Value for Money' }
 ];
 
-// Reusable SVG Components
+const getSentiment = (val) => {
+  if (!val || val === 0) return null;
+  if (val === 1) return { label: 'Poor', color: '#ef4444' };
+  if (val === 2) return { label: 'Fair', color: '#f97316' };
+  if (val === 3) return { label: 'Average', color: '#f59e0b' };
+  if (val === 4) return { label: 'Good', color: '#14b8a6' };
+  if (val === 5) return { label: 'Excellent', color: '#10b981' };
+  return null;
+};
+
+const getOverallSentiment = (score) => {
+  const s = parseFloat(score);
+  if (!s || s === 0) return null;
+  if (s < 2) return { label: 'Poor', color: '#ef4444' };
+  if (s < 3) return { label: 'Fair', color: '#f97316' };
+  if (s < 3.5) return { label: 'Average', color: '#f59e0b' };
+  if (s < 4.5) return { label: 'Good', color: '#14b8a6' };
+  return { label: 'Excellent', color: '#10b981' };
+};
+
+// SVG Components
 const HotelLogo = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="100" height="100" rx="24" fill="#FFFFFF"/>
@@ -45,23 +64,33 @@ const SmileyStar = ({ className }) => (
   </svg>
 );
 
-function StarRating({ value, onChange }) {
+function StarRating({ value, onChange, size = 'normal' }) {
   const [hovered, setHovered] = useState(null);
+  const active = hovered || value;
+  const sentiment = getSentiment(value);
   return (
-    <div className="star-row">
-      {[1, 2, 3, 4, 5].map(star => (
-        <button
-          key={star}
-          type="button"
-          className={`star-btn ${(hovered || value) >= star ? 'filled' : ''}`}
-          onMouseEnter={() => setHovered(star)}
-          onMouseLeave={() => setHovered(null)}
-          onClick={() => onChange(star)}
-          aria-label={`Rate ${star} star`}
-        >
-          ★
-        </button>
-      ))}
+    <div className="star-rating-group">
+      <div className={`star-row ${size === 'large' ? 'star-row-large' : ''}`}>
+        {[1, 2, 3, 4, 5].map(star => (
+          <button
+            key={star}
+            type="button"
+            className={`star-btn ${active >= star ? 'filled' : ''}`}
+            style={active >= star ? { color: getSentiment(active)?.color || '#f59e0b' } : {}}
+            onMouseEnter={() => setHovered(star)}
+            onMouseLeave={() => setHovered(null)}
+            onClick={() => onChange(star)}
+            aria-label={`Rate ${star} star`}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+      {sentiment && (
+        <span className="sentiment-label" style={{ color: sentiment.color }}>
+          {sentiment.label}
+        </span>
+      )}
     </div>
   );
 }
@@ -75,31 +104,39 @@ export default function FeedbackForm() {
   const [customServices, setCustomServices] = useState([]);
   const [addingService, setAddingService] = useState(false);
   const [customServiceName, setCustomServiceName] = useState('');
-  
+
   const [generalRatings, setGeneralRatings] = useState({});
   const [serviceRatings, setServiceRatings] = useState({});
   const [comment, setComment] = useState('');
+
+  // Info step state
+  const [shareContact, setShareContact] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const currentStep = STEPS[step];
-
   const allServicesList = [...servicesList, ...customServices];
 
   const handleNext = () => setStep(s => Math.min(s + 1, STEPS.length - 1));
   const handleBack = () => setStep(s => Math.max(s - 1, 0));
 
   const toggleService = (id) => {
-    setSelectedServices(prev => 
+    setSelectedServices(prev =>
       prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
     );
+  };
+
+  const removeCustomService = (id) => {
+    setCustomServices(prev => prev.filter(s => s.id !== id));
+    setSelectedServices(prev => prev.filter(s => s !== id));
   };
 
   const handleAddCustomService = () => {
     if (customServiceName.trim() && customServices.length < 3) {
       const newId = `custom_${Date.now()}`;
-      const newService = { id: newId, label: customServiceName.trim(), icon: 'stars' };
+      const newService = { id: newId, label: customServiceName.trim(), icon: 'stars', isCustom: true };
       setCustomServices(prev => [...prev, newService]);
       setSelectedServices(prev => [...prev, newId]);
       setCustomServiceName('');
@@ -115,6 +152,7 @@ export default function FeedbackForm() {
   };
 
   const overallScore = calculateOverallScore();
+  const overallSentiment = getOverallSentiment(overallScore);
   const allGeneralRated = generalAreas.every(area => generalRatings[area.id] > 0);
 
   const handleSubmit = async () => {
@@ -127,8 +165,8 @@ export default function FeedbackForm() {
   return (
     <div className="feedback-wrapper">
       <div className="split-layout">
-        
-        {/* LEFT PANEL (Sidebar) */}
+
+        {/* LEFT PANEL */}
         <div className="left-panel">
           <div className="lp-header">
             <HotelLogo className="lp-logo" />
@@ -173,9 +211,18 @@ export default function FeedbackForm() {
           </div>
         </div>
 
-        {/* RIGHT PANEL (Main Content) */}
+        {/* RIGHT PANEL */}
         <div className="right-panel">
-          
+
+          {/* Mobile-only brand header strip */}
+          <div className="mobile-form-header">
+            <HotelLogo className="mobile-form-logo" />
+            <div>
+              <p className="mobile-form-hotel-name">{branch.hotel}</p>
+              <span className="mobile-form-branch">{branch.name}</span>
+            </div>
+          </div>
+
           <div className="rp-top-bar">
             {step > 0 && step < STEPS.length - 1 ? (
               <div className="rp-progress-header">
@@ -185,19 +232,17 @@ export default function FeedbackForm() {
                   ))}
                 </div>
                 <div className="rp-progress-text">
-                  <span className="text-teal">{step}</span><span className="text-muted">/{STEPS.length - 1}</span>
+                  <span className="text-teal">{step}</span><span className="text-muted">/{STEPS.length - 2}</span>
                 </div>
               </div>
             ) : (
               <div className="top-teal-line"></div>
             )}
-            <button className="theme-toggle-btn">
-              <span className="material-symbols-outlined">light_mode</span>
-            </button>
           </div>
 
           <div className="rp-content-area">
-            
+
+            {/* WELCOME STEP */}
             {currentStep === 'welcome' && (
               <div className="step-welcome fade-in">
                 <HotelLogo className="rp-huge-logo" />
@@ -232,20 +277,30 @@ export default function FeedbackForm() {
               </div>
             )}
 
+            {/* EXPERIENCE STEP */}
             {currentStep === 'experience' && (
               <div className="step-form fade-in step-experience">
                 <h2 className="form-title align-left">What did you experience?</h2>
-                <p className="form-subtitle align-left">Select all that apply — you'll rate each one separately</p>
+                <p className="form-subtitle align-left">Select all the services you used during your visit</p>
 
                 <div className="services-grid">
                   {allServicesList.map(srv => {
                     const isSelected = selectedServices.includes(srv.id);
                     return (
-                      <div 
-                        key={srv.id} 
+                      <div
+                        key={srv.id}
                         className={`service-card ${isSelected ? 'selected' : ''}`}
                         onClick={() => toggleService(srv.id)}
                       >
+                        {srv.isCustom && (
+                          <button
+                            className="service-remove-btn"
+                            onClick={(e) => { e.stopPropagation(); removeCustomService(srv.id); }}
+                            aria-label="Remove service"
+                          >
+                            <span className="material-symbols-outlined">close</span>
+                          </button>
+                        )}
                         <div className="service-icon-box">
                           <span className="material-symbols-outlined">{srv.icon}</span>
                         </div>
@@ -261,10 +316,10 @@ export default function FeedbackForm() {
 
                 {addingService ? (
                   <div className="custom-service-input-row">
-                    <input 
-                      type="text" 
-                      placeholder="e.g. Valet Parking" 
-                      value={customServiceName} 
+                    <input
+                      type="text"
+                      placeholder="e.g. Valet Parking"
+                      value={customServiceName}
                       onChange={e => setCustomServiceName(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && handleAddCustomService()}
                       autoFocus
@@ -273,8 +328,8 @@ export default function FeedbackForm() {
                     <button className="cancel-btn" onClick={() => { setAddingService(false); setCustomServiceName(''); }}>Cancel</button>
                   </div>
                 ) : (
-                  <button 
-                    className="add-other-service-btn" 
+                  <button
+                    className="add-other-service-btn"
                     onClick={() => setAddingService(true)}
                     disabled={customServices.length >= 3}
                   >
@@ -284,17 +339,18 @@ export default function FeedbackForm() {
                 )}
 
                 <div className="sticky-footer-btn">
-                  <button 
-                    className="btn-primary full-width" 
+                  <button
+                    className="btn-primary full-width"
                     onClick={handleNext}
                     disabled={selectedServices.length === 0}
                   >
-                    Continue
+                    Continue <span className="material-symbols-outlined">arrow_forward</span>
                   </button>
                 </div>
               </div>
             )}
 
+            {/* GENERAL EXPERIENCE STEP */}
             {currentStep === 'general' && (
               <div className="step-form fade-in step-general">
                 <h2 className="form-title align-left">General Experience</h2>
@@ -303,23 +359,44 @@ export default function FeedbackForm() {
                 <div className="overall-score-card">
                   <div className="overall-score-left">
                     <span className="overall-score-label">OVERALL SCORE</span>
-                    <span className="overall-score-desc">Rate the areas below to generate your score</span>
+                    <span className="overall-score-desc">Auto-calculated from your ratings below</span>
                   </div>
                   <div className="overall-score-right">
                     <div className="read-only-stars">
                       {[1, 2, 3, 4, 5].map(star => (
-                        <span key={star} className={`material-symbols-outlined ${overallScore >= star ? 'filled' : ''}`}>
-                          {overallScore >= star ? 'star' : 'star_rate'}
+                        <span
+                          key={star}
+                          className="material-symbols-outlined"
+                          style={{
+                            color: overallScore > 0 && Math.round(parseFloat(overallScore)) >= star
+                              ? (overallSentiment?.color || '#f59e0b')
+                              : '#334155',
+                            fontVariationSettings: overallScore > 0 && Math.round(parseFloat(overallScore)) >= star
+                              ? "'FILL' 1" : "'FILL' 0"
+                          }}
+                        >
+                          star
                         </span>
                       ))}
                     </div>
-                    <span className="score-number">{overallScore > 0 ? overallScore : '-'}</span>
+                    <span
+                      className="score-badge"
+                      style={{ background: overallScore > 0 ? (overallSentiment?.color || '#f59e0b') : '#334155' }}
+                    >
+                      {overallScore > 0 ? Math.round(parseFloat(overallScore)) : '-'}
+                    </span>
                   </div>
                 </div>
 
+                {overallSentiment && (
+                  <div className="overall-sentiment-label" style={{ color: overallSentiment.color }}>
+                    {overallSentiment.label}
+                  </div>
+                )}
+
                 <div className="rating-areas-container">
                   <div className="rating-areas-header">RATE EACH AREA — ALL REQUIRED</div>
-                  
+
                   {generalAreas.map(area => (
                     <div className="rating-area-row" key={area.id}>
                       <span className="rating-area-label">{area.label}</span>
@@ -334,14 +411,14 @@ export default function FeedbackForm() {
                 <div className="comment-section">
                   <h3 className="comment-title">Describe Your Experience <span className="optional-text">(optional)</span></h3>
                   <p className="comment-subtitle">What stood out most during your stay? Any highlights or areas we can improve?</p>
-                  
+
                   <div className="textarea-wrapper">
                     <textarea
                       className="form-textarea minimal-textarea"
                       placeholder="Share the details of your experience here..."
                       value={comment}
                       onChange={e => setComment(e.target.value.slice(0, 500))}
-                      rows={5}
+                      rows={4}
                     />
                     <div className="char-counter">{comment.length}/500</div>
                   </div>
@@ -357,11 +434,12 @@ export default function FeedbackForm() {
               </div>
             )}
 
+            {/* SPECIFIC SERVICES STEP */}
             {currentStep === 'specific' && (
               <div className="step-form fade-in">
                 <h2 className="form-title align-left">Specific Services</h2>
-                <p className="form-subtitle align-left">Rate the specific services you experienced.</p>
-                
+                <p className="form-subtitle align-left">Rate the specific services you experienced during your visit.</p>
+
                 <div className="dept-ratings-list">
                   {selectedServices.map(srvId => {
                     const srv = allServicesList.find(s => s.id === srvId) || { id: srvId, label: 'Other Service' };
@@ -371,6 +449,7 @@ export default function FeedbackForm() {
                         <StarRating
                           value={serviceRatings[srv.id] || 0}
                           onChange={val => setServiceRatings(prev => ({ ...prev, [srv.id]: val }))}
+                          size="large"
                         />
                       </div>
                     );
@@ -384,50 +463,166 @@ export default function FeedbackForm() {
               </div>
             )}
 
+            {/* YOUR DETAILS STEP */}
             {currentStep === 'info' && (
               <div className="step-form fade-in">
-                <h2 className="form-title align-left">Final Details</h2>
-                <p className="form-subtitle align-left">Optionally leave your contact info for follow-up.</p>
+                <h2 className="form-title align-left">Your Details</h2>
+                <p className="form-subtitle align-left">Optionally share your contact info if you'd like us to follow up</p>
 
-                <div className="form-fields">
-                  <div className="input-group">
-                    <label>Your Name</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. John Smith"
-                      value={name}
-                      onChange={e => setName(e.target.value)}
-                    />
+                {/* Contact Info Toggle Card */}
+                <div className="contact-toggle-card">
+                  <div className="contact-toggle-left">
+                    <span className="material-symbols-outlined contact-toggle-icon">person</span>
+                    <div>
+                      <p className="contact-toggle-title">Share Contact Info</p>
+                      <p className="contact-toggle-sub">Optional — only if you'd like the hotel to follow up with you</p>
+                    </div>
                   </div>
-                  <div className="input-group">
-                    <label>Email Address</label>
+                  <label className="toggle-switch">
                     <input
-                      type="email"
-                      placeholder="e.g. john@email.com"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
+                      type="checkbox"
+                      checked={shareContact}
+                      onChange={e => setShareContact(e.target.checked)}
                     />
-                  </div>
+                    <span className="toggle-slider"></span>
+                  </label>
                 </div>
+
+                {!shareContact ? (
+                  <div className="anonymous-info-box">
+                    <span className="material-symbols-outlined anonymous-info-icon">verified_user</span>
+                    <div>
+                      <p>Your review will be submitted <strong>anonymously</strong>.</p>
+                      <p>Toggle the option above if you'd like the hotel to be able to reach you.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="contact-consent-box">
+                      <span className="material-symbols-outlined consent-icon">info</span>
+                      <p>By sharing your contact details, you agree that the hotel team may reach out to you regarding your feedback or to resolve any concerns from your stay. Your information will not be shared with third parties.</p>
+                    </div>
+
+                    <div className="form-fields">
+                      <div className="input-group">
+                        <label>Full Name <span className="required-tag">(required to submit with contact)</span></label>
+                        <div className="input-with-icon">
+                          <span className="material-symbols-outlined input-icon">person</span>
+                          <input
+                            type="text"
+                            placeholder="Your full name"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="input-group">
+                        <label>Email Address <span className="required-tag">(required to submit with contact)</span></label>
+                        <div className="input-with-icon">
+                          <span className="material-symbols-outlined input-icon">mail</span>
+                          <input
+                            type="email"
+                            placeholder="your@email.com"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="input-group">
+                        <label>Phone Number <span className="optional-tag">(optional)</span></label>
+                        <div className="input-with-icon">
+                          <span className="material-symbols-outlined input-icon">call</span>
+                          <input
+                            type="tel"
+                            placeholder="e.g. 0200000000"
+                            value={phone}
+                            onChange={e => setPhone(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 <div className="sticky-footer-btn split-footer">
                   <button className="btn-secondary" onClick={handleBack}>Back</button>
-                  <button className="btn-primary" onClick={handleSubmit} disabled={submitting}>
-                    {submitting ? <span className="spinner"></span> : 'Submit Review'}
+                  <button
+                    className="btn-primary"
+                    onClick={handleSubmit}
+                    disabled={submitting || (shareContact && (!name.trim() || !email.trim()))}
+                  >
+                    {submitting
+                      ? <span className="spinner"></span>
+                      : shareContact
+                        ? <><span className="material-symbols-outlined">send</span> Submit Review</>
+                        : <><span className="material-symbols-outlined">send</span> Submit Anonymously</>
+                    }
                   </button>
                 </div>
+                {!shareContact && (
+                  <p className="rp-disclaimer" style={{ textAlign: 'center', marginTop: 8 }}>
+                    Add your name &amp; email above to submit with contact info instead
+                  </p>
+                )}
               </div>
             )}
 
+            {/* DONE STATE */}
             {currentStep === 'done' && (
               <div className="step-form fade-in done-state">
                 <div className="success-circle">
                   <span className="material-symbols-outlined">check</span>
                 </div>
-                <h2 className="form-title">Thank you!</h2>
-                <p className="form-subtitle">
-                  Your feedback has been submitted successfully. We appreciate your time and hope to see you again at <strong>{branch.hotel}</strong>.
+                <h2 className="done-title">Thank You!</h2>
+                <p className="done-sub">
+                  Your review has been submitted to{' '}
+                  <span className="done-hotel-name">{branch.hotel}</span>
                 </p>
+                <p className="done-desc">
+                  Your feedback has been sent directly to the hotel management team and will help improve the experience for future guests.
+                </p>
+
+                <div className="done-stars">
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <span
+                      key={star}
+                      className="material-symbols-outlined"
+                      style={{
+                        fontSize: 28,
+                        color: Math.round(parseFloat(overallScore)) >= star ? '#f59e0b' : '#334155',
+                        fontVariationSettings: Math.round(parseFloat(overallScore)) >= star ? "'FILL' 1" : "'FILL' 0"
+                      }}
+                    >
+                      star
+                    </span>
+                  ))}
+                </div>
+
+                <div className="done-hotel-card">
+                  <HotelLogo className="done-hotel-logo" />
+                  <div className="done-hotel-info">
+                    <p className="done-hotel-card-name">{branch.hotel}</p>
+                    <p className="done-hotel-card-branch">{branch.name}</p>
+                    <div className="done-hotel-card-meta">
+                      <span>Overall rating</span>
+                      <span className="done-hotel-rating">
+                        {overallScore > 0 ? overallScore : '—'}/5
+                        <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#f59e0b', fontVariationSettings: "'FILL' 1" }}>star</span>
+                      </span>
+                    </div>
+                    {shareContact && name && (
+                      <div className="done-hotel-card-meta">
+                        <span>Submitted by</span>
+                        <span className="done-hotel-submitter">{name.toUpperCase()}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <button className="btn-primary done-btn" onClick={() => setStep(0)}>
+                  <span className="material-symbols-outlined">home</span>
+                  Done
+                </button>
               </div>
             )}
 
